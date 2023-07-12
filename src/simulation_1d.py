@@ -1,30 +1,12 @@
-# %%
+import os
 import numpy as np
 import matplotlib.pyplot as plt
+from lanchesters import Lanchesters
 
-# ランチェスターの法則（戦略）
-class Lanchesters:
-    # コンストラクタ
-    def __init__(self, x0, y0, cx, cy) -> None:
-        self.x0 = x0
-        self.y0 = y0
-        self.cx = cx
-        self.cy = cy
+if not os.path.exists('./figs'):
+    os.mkdir('./figs')
 
-    # xに関する1次法則
-    def linear_law_x(self, time):
-        return self.x0 - self.cy * time
-    
-    # yに関する1次法則
-    def linear_law_y(self, time):
-        return self.y0 - self.cx * time
-    
-    # 武器の性能比率
-    def linear_law_ratio(self):
-        return self.cy / self.cx
-
-# 実行文
-if __name__ == '__main__':
+def main():
     # x軍の初期人数
     x0 = 10
     # x軍の持つ武器で、何人倒せるかの統計的な平均値
@@ -35,7 +17,7 @@ if __name__ == '__main__':
     cy = 1.0
 
     # 時間
-    max_time = 5
+    max_time = 10
 
     # ランチェスタークラス
     lancher = Lanchesters(x0, y0, cx, cy)
@@ -55,10 +37,16 @@ if __name__ == '__main__':
     
     # 武器の性能比率
     R = lancher.linear_law_ratio()
-
-    plt.plot(x_linear)
-    plt.plot(y_linear)
+    plt.xlim(min(time), max(time))
+    plt.title('Lanchesters1D')
+    plt.ylabel('Force Count')
+    plt.xlabel('time')
+    plt.plot(x_linear, c='r', label='X Force')
+    plt.plot(y_linear, c='b', label='Y Force')
+    plt.legend()
+    plt.savefig('./figs/Lanchesters1D.png')
     plt.show()
 
-
-# %%
+# 実行文
+if __name__ == '__main__':
+    main()
